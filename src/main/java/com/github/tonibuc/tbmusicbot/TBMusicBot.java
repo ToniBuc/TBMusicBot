@@ -10,7 +10,6 @@ import java.util.*;
 
 public class TBMusicBot {
     private static final Map<String, Command> commands = new HashMap<>();
-    public static String SETTINGS;
     public static void main(String[] args) {
         final GatewayDiscordClient client = DiscordClientBuilder.create(args[0])
                 .build()
@@ -34,6 +33,7 @@ public class TBMusicBot {
         client.getEventDispatcher().on(MessageCreateEvent.class).subscribe(PlayCommand::Play);
         client.getEventDispatcher().on(MessageCreateEvent.class).subscribe(SkipCommand::Skip);
         client.getEventDispatcher().on(MessageCreateEvent.class).subscribe(CurrentCommand::Current);
+        client.getEventDispatcher().on(MessageCreateEvent.class).subscribe(KislevCommand::Kislev);
 
         client.onDisconnect().block();
 //

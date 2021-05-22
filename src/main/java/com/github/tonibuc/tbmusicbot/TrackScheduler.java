@@ -1,32 +1,69 @@
 package com.github.tonibuc.tbmusicbot;
 
+import com.github.tonibuc.tbmusicbot.commands.CmdHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+import discord4j.voice.AudioProvider;
 
-public class TrackScheduler implements AudioLoadResultHandler {
-    private final AudioPlayer player;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+public class TrackScheduler extends AudioEventAdapter {
+    private static AudioPlayer player;
+    private final BlockingQueue<AudioTrack> queue;
     public TrackScheduler(final AudioPlayer player) {
         this.player = player;
+        this.queue = new LinkedBlockingQueue<>();
+    }
+
+    public void newTrack(AudioTrack track){
+        if (!player.startTrack(track, true)) {
+            queue.offer(track);
+        }
     }
 
     @Override
-    public void trackLoaded(final AudioTrack track) {
-        player.playTrack(track);
+    public void onPlayerPause(AudioPlayer player) {
+        // Player was paused
     }
 
     @Override
-    public void playlistLoaded(final AudioPlaylist playlist) {
+    public void onPlayerResume(AudioPlayer player) {
+        // Player was resumed
     }
 
     @Override
-    public void noMatches() {
+    public void onTrackStart(AudioPlayer player, AudioTrack track) {
+        // A track started playing
     }
 
     @Override
-    public void loadFailed(final FriendlyException exception) {
+    public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
+        if (endReason.mayStartNext) {
+            nextTrack();
+        }
+    }
+
+    public void nextTrack(){
+        player.startTrack(queue.poll(), false);
+    }
+
+    @Override
+    public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
+        // An already playing track threw an exception (track end event will still be received separately)
+    }
+
+    @Override
+    public void onTrackStuck(AudioPlayer player, AudioTrack track, long thresholdMs) {
+        // Audio track has been unable to provide us any audio, might want to just start a new track
     }
 }
 

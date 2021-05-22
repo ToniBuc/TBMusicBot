@@ -7,6 +7,7 @@ public class SkipCommand extends CmdHandler{
         if (event.getMessage().getContent().equalsIgnoreCase("!skip"))
         {
             player.stopTrack();
+            scheduler.nextTrack();
         }
     }
 }
