@@ -33,6 +33,7 @@ public class TBMusicBot {
         client.getEventDispatcher().on(MessageCreateEvent.class).subscribe(PlayCommand::Play);
         client.getEventDispatcher().on(MessageCreateEvent.class).subscribe(SkipCommand::Skip);
         client.getEventDispatcher().on(MessageCreateEvent.class).subscribe(CurrentCommand::Current);
+        client.getEventDispatcher().on(MessageCreateEvent.class).subscribe(ShowQueueCommand::ShowQueue);
         client.getEventDispatcher().on(MessageCreateEvent.class).subscribe(KislevCommand::Kislev);
 
         client.onDisconnect().block();

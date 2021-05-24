@@ -18,15 +18,18 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class TrackScheduler extends AudioEventAdapter {
     private static AudioPlayer player;
-    private final BlockingQueue<AudioTrack> queue;
+    public final BlockingQueue<AudioTrack> queue;
+    public final List<AudioTrack> queueList;
     public TrackScheduler(final AudioPlayer player) {
         this.player = player;
         this.queue = new LinkedBlockingQueue<>();
+        this.queueList = Collections.synchronizedList(new LinkedList<>());
     }
 
     public void newTrack(AudioTrack track){
         if (!player.startTrack(track, true)) {
             queue.offer(track);
+            queueList.add(track);
         }
     }
 
@@ -53,6 +56,7 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     public void nextTrack(){
+        queueList.remove(0);
         player.startTrack(queue.poll(), false);
     }
 

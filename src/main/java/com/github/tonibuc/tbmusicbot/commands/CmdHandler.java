@@ -1,18 +1,13 @@
 package com.github.tonibuc.tbmusicbot.commands;
 
 import com.github.tonibuc.tbmusicbot.LavaPlayerAudioProvider;
-import com.github.tonibuc.tbmusicbot.TrackLoadHandler;
 import com.github.tonibuc.tbmusicbot.TrackScheduler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.track.playback.NonAllocatingAudioFrameBuffer;
-import discord4j.common.util.Snowflake;
 import discord4j.voice.AudioProvider;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class CmdHandler {
     public static final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
