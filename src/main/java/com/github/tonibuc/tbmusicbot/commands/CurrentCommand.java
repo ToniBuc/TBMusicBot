@@ -9,7 +9,7 @@ public class CurrentCommand extends CmdHandler{
     public static void Current(MessageCreateEvent event) {
         if (player.getPlayingTrack() != null)
         {
-            if (event.getMessage().getContent().equalsIgnoreCase("!current"))
+            if (event.getMessage().getContent().equalsIgnoreCase("!current") || event.getMessage().getContent().equalsIgnoreCase("!ct"))
             {
                 event.getMessage()
                         .getChannel().block()

@@ -8,12 +8,14 @@ import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.track.playback.NonAllocatingAudioFrameBuffer;
 import discord4j.voice.AudioProvider;
+import discord4j.voice.VoiceConnection;
 
 public class CmdHandler {
     public static final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
     public static final AudioPlayer player = playerManager.createPlayer();
     public static LavaPlayerAudioProvider provider = new LavaPlayerAudioProvider(player);
     public static final TrackScheduler scheduler = new TrackScheduler(player);
+    public static VoiceConnection connection = null;
     public static void main(String args) {
         playerManager.getConfiguration().setFrameBufferFactory(NonAllocatingAudioFrameBuffer::new);
         AudioSourceManagers.registerRemoteSources(playerManager);

@@ -7,7 +7,7 @@ import discord4j.core.object.entity.channel.VoiceChannel;
 import discord4j.voice.VoiceConnection;
 
 public class JoinCommand extends CmdHandler{
-    public static VoiceConnection connection = null;
+    //public static VoiceConnection connection = null;
     public static void Join(MessageCreateEvent event) {
         if (event.getMessage().getContent().equalsIgnoreCase("!join"))
         {
